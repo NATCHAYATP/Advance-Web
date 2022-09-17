@@ -1,0 +1,734 @@
+5.1
+-> app.component.html
+>>>
+<div class="container-fluid"><br>
+  <div class="row">
+    <div class="col-12 ">
+      <div class="jumbotron jumbotron-fluid bg-dark text-white">
+        <div class="container">
+          <h1 class="display-3">523419 Avanvanced Web Application Development</h1>
+          <p class="lead">Lab #5</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col-6">
+      <app-ngclass></app-ngclass>
+    </div>
+    <div class="col-6">
+
+    </div>
+  </div>
+  <div class="row" style="margin-top: 30px">
+    <div class="col-6">
+
+    </div>
+    <div class="col-6">
+
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col-12">
+
+    </div>
+  </div><br>
+</div>
+<<<
+
+-> ngclass.component.html
+>>>
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        <div class="float-left">ngClass Directive</div>
+        <button type="button" (click)="ngClassMethod()" class="btn btn-sm float-right"
+            [ngClass]="{'btn-danger': status, 'btn-primary': !status}">Click</button>
+    </div>
+    <div class="card-body" [ngClass]="{'alert-danger': status}">
+        <div>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s,
+        </div>
+    </div>
+</div>
+<<<
+
+-> ngclass.component.ts
+>>> 
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngclass',
+  templateUrl: './ngclass.component.html',
+  styleUrls: ['./ngclass.component.css']
+})
+export class NgclassComponent implements OnInit {
+
+  status!: boolean;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.status = false;
+  }
+
+  ngClassMethod(){
+    this.status = !this.status;
+  }
+
+}
+<<<
+-------------------------------------------------------------------------------
+5.2 
+-> ngstyle.component.html
+>>>
+<div class="card">
+<div class="card-header bg-secondary text-white"> <div class="float-left">ngStyle Directive</div>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-4 text-center">
+<h5>Red</h5> <input type="number" class="form-control" [(ngModel)]="r" (change)="ngStyleMethod()" min="0" max="255">
+</div>
+<div class="col-md-4 text-center">
+<h5>Green</h5>
+<input type="number" class="form-control" [(ngModel)]="g" (change)="ngStyleMethod()" min="0" max="255">
+</div>
+<div class="col-md-4 text-center">
+<h5>Blue</h5> <input type="number" class="form-control" [(ngModel)]="b"
+(change)="ngStyleMethod()" min="0" max="255">
+</div>
+</div>
+</div>
+</div>
+>>>
+
+-> ngstyle.component.ts
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+@Component({
+selector: 'app-ngstyle',
+templateUrl: './ngstyle.component.html', styleUrls: ['./ngstyle.component.css']
+})
+
+export class NgstyleComponent implements OnInit {
+@Output() messageEvent = new EventEmitter<string>();
+colorProperty: string = '';
+r: number = 255;
+g: number = 255;
+b: number = 255;
+
+constructor() { }
+
+ngOnInit(): void {
+
+}
+
+ngStyleMethod(){
+
+this.colorProperty = 'rgb('+this.r+', '+this.g+', '+this.b+')'
+
+this.messageEvent.emit (this.colorProperty)
+}
+}
+>>>
+
+-> app.component.html
+>>>
+<div class="container-fluid" [ngStyle]="{'background-color': parentColorProperty}"><br>
+<div class="row">
+<div class="col-12 ">
+<div class="jumbotron jumbotron-fluid bg-dark text-white"> <div class="container">
+<h1 class="display-3">523419 Avanvanced Web Application Development</h1>
+<p class="lead">Lab #5</p>
+</div>
+</div>
+</div>
+</div>
+<div class="row" style="margin-top:30px">
+<div class="col-6">
+<app-ngclass></app-ngclass>
+</div>
+<div class="col-6">
+<app-ngstyle (messageEvent)="receiveData($event)"></app-ngstyle>
+</div>
+</div>
+>>>
+
+5.3
+-> ngifcomponent.html
+<<<
+<div class="card">
+<div class="card-header bg-secondary text-white">
+<div class="float-left">ngIf Directive</div> <button type="button" class="btn btn-primary btn-sm float-right"
+(click)="onClick()">{{show
+? 'hide'
+: 'show'}}</button>
+</div>
+
+<div class="card-body" *ngIf="show">
+<div>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+</div>
+</div>
+</div>
+>>>
+
+-> ngif.component.ts
+>>> 
+import { Component, OnInit } from '@angular/core';
+@Component({
+selector: 'app-ngif',
+templateUrl: './ngif.component.html',
+styleUrls: ['./ngif.component.css']
+})
+
+export class NgifComponent implements OnInit {
+show: boolean = true;
+constructor() { }
+ngOnInit(): void {
+
+}
+
+onClick(){
+this.show = !this.show
+
+}
+
+}
+>>>
+
+5.4
+-> ngswitch.component.html
+<<<
+<div class="card">
+<div class="card-header bg-secondary text-white">
+<div class="float-left">ngSwitch Directive</div> </div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-12">
+<input type="number" [(ngModel)]="lotto" class="form-control" placeholder="Check my Lotto">
+</div>
+
+</div><br>
+
+<div class="row text-center">
+<div class="col-md-12">
+<div [ngSwitch]="lotto">
+<div *ngSwitchCase="111111">
+<div class="alert alert-success" role="alert"> <strong>Congratulation you won the first prize!</strong>
+</div>
+</div>
+<div *ngSwitchCase="222222">
+
+<div class="alert alert-success" role="alert"> <strong>Congratulation you won the second prize</strong>
+</div>
+</div>
+<div *ngSwitchCase="333333">
+<div class="alert alert-success" role="alert"> <strong>Congratulation you won the third prize</strong>
+
+</div>
+</div>
+<div *ngSwitchDefault>
+<div class="alert alert-danger" role="alert">
+<strong>Sorry !!</strong>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+>>>
+
+5.5
+-> ngfor.component.html
+<<<
+<div class="card">
+<div class="card-header bg-secondary text-white">
+ng For Directive
+</div>
+<div class="card-body">
+<h2>Employee</h2> <table class="table table-striped table-inverse">
+<thead class="thead-inverse">
+<tr>
+<th>ID.</th>
+<th>Name</th>
+<th>Salary</th>
+<th>Age</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let item of employee">
+<td scope="row">{{item.id}}</td>
+<td>{{item.employee_name}}</td>
+<td>{{item.employee_salary}}</td>
+<td>{{item.employee_age}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+>>>
+
+-> ngfor.component.ts
+<<<
+employee: any = [
+
+{"id":"1","employee_name":"WdqBvFe", "employee_salary":"797","employee_age":"36"},
+
+{"id":"1925","employee_name":"Menaka6","employee_salary":"24501", "employee_age":"24501"},
+
+{"id":"1969","employee_name":"2381", "employee_salary":"123","employee_age":"23"},
+
+{"id":"1970", "employee_name":"6132", "employee_salary":"123","employee_age":"23"},
+
+{"id":"1972","employee_name":"2022","employee_salary":"123","employee_age":"23"}, {"id":"1976","employee_name":"Shylu", "employee_salary":"123", "employee_age":"23"}, {"id":"1977","employee_name":"8221", "employee_salary":"123","employee_age":"23"}, {"id":"1999","employee_name":"test-127","employee_salary":"123","employee_age":"23"},
+
+{"id":"1973","employee_name":"4604", "employee_salary":"123", "employee_age":"23"},
+
+{"id":"1981", "employee_name":"111test","employee_salary":"123", "employee_age":"23"},
+
+{"id":"1996","employee_name":"test-709","employee_salary":"123", "employee_age":"23"},
+
+{"id":"1997","employee_name":"test-654","employee_salary":"123","employee_age":"23"},
+
+{"id":"2001", "employee_name": "test-301", "employee_salary":"123", "employee_age":"23"},
+
+{"id":"2003","employee_name":"1769", "employee_salary":"123", "employee_age":"23"}
+>>>
+
+6.1
+-> products.model.ts
+<<<
+interface Products {
+
+p_id: number,
+
+p_name: string,
+
+p_quantity: number,
+
+p_price: number
+
+}
+
+export type productsType = Products [];
+>>>
+
+-> products.service.ts
+<<<
+import { Injectable } from '@angular/core';
+
+import {productsType} from '../products.model'
+
+@Injectable()
+
+export class ProductsService {
+
+product_list: productsType = [
+
+{p_id: 100001, p_name: 'Intel Core i7 Gen 10th', p_quantity: 10, p_price: 7000 },
+
+{p_id: 100002, p_name: 'NVIDIA GeForce GTX 1650', p_quantity: 5, p_price: 5000 },
+
+{p_id: 100003, p_name: '240 GB SSD SATA Kingston A400', p_quantity: 8, p_price: 1300 },
+
+{p_id: 100004, p_name: '2066) MSI X299 PRO', p_quantity: 4, p_price: 7790 },
+
+{p_id: 100005, p_name: 'RAM DDR4 (4500) 16GB (8GBX2) TEAM Xtreem Black', p_quantity: 11, p_price: 12900 }
+
+constructor() { }
+
+getAllProduct() {
+
+return this.product_list;
+
+}
+
+}
+>>>
+
+->products.component.ts
+<<<
+import { Component, OnInit } from '@angular/core';
+
+import { ProductsService } from '../../services/products.service'
+
+@Component({
+
+selector: 'app-products', templateUrl: './products.component.html', styleUrls: ['./products.component.css'],
+
+})
+
+export class Products Component implements OnInit {
+
+constructor(private productsService: ProductsService) {
+
+}
+
+ngOnInit(): void {
+
+}
+
+getAllProduct() {
+
+return this.productsService.getAllProduct()
+
+}
+
+}
+>>>
+
+-> products.component.html
+<<<
+<h2>Products</h2>
+
+<div class="table-responsive-md">
+
+<table class="table table-striped table-inverse">
+
+<thead class="thead-inverse">
+
+<tr>
+
+<th>ID.</th>
+
+<th>Name</th>
+
+<th>Quantity</th>
+
+<th>Price</th>
+
+<th>Add to Cart</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr *ngFor="let item of getAllProduct(); index as i">
+
+<td scope="row">{{item.p_id}}</td>
+
+<td>{{item.p_name}}</td> <td>{{item.p_quantity}}</td>
+
+<td>{{item.p_price}}</td>
+
+<td>
+
+<a class="btn btn-outline-primary" role="button"> <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+>>>
+
+-> app.component.html
+<<<
+<div class="col-md-12">
+
+<div class="container-fluid" style="margin-top:30px"> <div class="row"> <app-products></app-products> </div>
+
+</div>
+
+</div>
+>>>
+
+6.2
+-> cart.service.ts
+<<<
+import { Injectable } from '@angular/core';
+
+@Injectable({providedIn:"root"})
+
+export class CartService {
+
+counter: number = 0 ;
+
+constructor() { }
+
+add(p_id: number){
+
+console.log('Add product id: '+p_id+' to cart');
+
+this.counter += 1
+
+}
+
+getCounter(){
+
+return this.counter;
+
+}
+
+}
+>>>
+
+->menu.component.ts
+<<<
+import { Component, OnInit } from '@angular/core';
+
+import { CartService } from '../../services/cart.service'
+
+@Component({
+
+selector: 'app-menu',
+
+templateUrl:
+
+'./menu.component.html', styleUrls: ['./menu.component.css']
+
+})
+
+export class MenuComponent implements OnInit {
+
+constructor(private cartService: CartService) {
+
+}
+
+ngOnInit(): void {
+
+}
+
+getCounter() {
+
+return this.cartService.getCounter();
+
+}
+
+}
+>>>
+
+-> products.component.html
+<<<
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+
+<button class="navbar-toggler" type="button"
+
+data-toggle="collapse" data-target="#navbarTogglerDemo03"
+
+aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+
+</button>
+
+<a href="#" class="navbar-brand btn btn-dark"><i class="fa fa-home" aria-hidden="true"></i></a> <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+<li class="nav-item">
+
+<a href="#" class="btn btn-dark">Home</a>
+
+</li>
+
+<li class="nav-item">
+
+<a href="#" class="btn btn-dark">Products</a>
+
+</li>
+
+</ul>
+
+<a href="#" class="btn btn-dark">
+
+<i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+
+<span class="badge badge-info">{{getCounter()}}</span>
+
+</a>
+
+</div>
+
+</nav>
+>>>
+
+-> (7) products.component.html
+<<<
+<td>
+
+<a class="btn btn-outline-primary" role="button" (click)="addToCart(i)"> <i class="fa fa-cart-plus" aria-hidden="true"></i></a> </td>
+>>>
+
+6.3
+->cart.service.ts
+<<<
+import { Injectable } from '@angular/core';
+
+import {productsType} from '../products.model' import { ProductsService } from './products.service'
+
+@Injectable()
+
+export class CartService {
+
+counter: number = 0;
+
+sumPrice: number = 0;
+
+cart: productsType = []
+
+constructor(private productsService: ProductsService) { }
+
+add (p_id: number){
+
+console.log('Add product id: '+p_id+' to cart');
+
+this.cart.push(this.productsService.getSomeProduct (p_id));
+
+this.sumPrice += this.productsService.getSomeProduct (p_id).p_price
+
+this.counter = this.cart.length;
+
+}
+
+getCounter(){
+
+return this.counter;
+
+}
+
+getsumPrice(){
+
+return this.sumPrice;
+
+}
+
+getCart() {
+
+return this.cart;
+
+}
+
+}
+>>>
+
+-> menu.component.ts
+<<<
+import { Component, OnInit } from '@angular/core';
+
+import { CartService } from '../../services/cart.service' import {productsType} from '../../products.model'
+
+@Component({
+
+selector: 'app-menu',
+
+templateUrl: './menu.component.html',
+
+styleUrls: ['./menu.component.css']
+
+})
+
+export class MenuComponent implements OnInit {
+
+cart: productsType = []
+
+constructor(private cartService: CartService) { this.cart = this.cartService.getCart();
+
+ngOnInit(): void {}
+
+getCounter(){
+
+return this.cartService.getCounter();
+
+}
+
+getSumPrice() {
+
+return this.cartService.getsumPrice();
+
+}
+
+}
+>>>
+
+-> menu.component.html
+<<<
+<a href="#" class="btn btn-dark" data-toggle="modal" data-target="#myModal"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-info">{{getCounter()}}</span> </a>
+>>>
+
+-> menu.component.html (ดูดีๆนะมันแปลหายๆ)
+<<<
+The Modal -->
+
+<div class="modal fade" id="myModal">
+
+<div class="modal-dialog modal-lg">
+
+<div class="modal-content">
+
+<!-- Modal Header -->
+
+<div class="modal-header">
+
+<h4 class="modal-title">Your Shoping Cart</h4>
+
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+</div>
+
+<!-- Modal body -->
+
+<div class="modal-body">
+
+<table class="table table-striped table-inverse">
+
+<thead class="thead-inverse">
+
+<tr>
+
+<th>ID.</th>
+
+<th>Name</th>
+
+<th>Price</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr *ngFor="let item of cart; index as i">
+
+<td scope="row">{{item.p_id}}</td>
+
+<td>{{item.p_name}}</td>
+
+<td>{{item.p_price}}</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<p class="text-right">
+
+<b>Subtotal: </b> {{getSumPrice()}}
+
+</p>
+
+</div>
+
+<!-- Modal
+
+footer -->
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+>>>
